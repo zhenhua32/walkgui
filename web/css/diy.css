@@ -1,0 +1,19 @@
+.pure-g > div {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+#task {
+    border-right: 3px solid #111111;
+    padding-left: 2em;
+}
+#main {
+    padding: 1em;
+}
+#task ol{
+    padding: 1em;
+}
+#task ol li {
+    word-break: break-all;
+}

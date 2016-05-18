@@ -1,0 +1,34 @@
+{
+  "name": "walk",
+  "version": "1.0.0",
+  "description": "A minimal Electron application",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron main.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/"
+  },
+  "keywords": [
+    "Electron",
+    "quick",
+    "start",
+    "tutorial"
+  ],
+  "author": "GitHub",
+  "license": "CC0-1.0",
+  "bugs": {
+    "url": ""
+  },
+  "homepage": "",
+  "devDependencies": {
+    "electron-prebuilt": "^1.0.2",
+    "electron-rebuild": "^1.1.3"
+  },
+  "dependencies": {
+    "electron-rebuild": "^1.1.4",
+    "iconv-lite": "^0.4.13",
+    "request": "^2.72.0"
+  }
+}

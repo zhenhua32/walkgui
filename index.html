@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>爬虫</title>
+  <link rel="stylesheet" href="./web/css/pure-min.css">
+  <!--electron基于Chromium的, 不用考虑兼容性-->
+  <link rel="stylesheet" href="./web/css/grids-responsive-min.css">
+  <link rel="stylesheet" href="./web/css/diy.css">
+
+</head>
+
+<body>
+  <div class="pure-g">
+    <div class="pure-u-1-4" id="task">
+      <!--添加padding或border要么嵌套div要么使用border-box,见pure的grid节-->
+      <h1>任务完成</h1>
+      <button class="pure-button" id="clear">清除</button>
+      <ol id="list">
+      </ol>
+    </div>
+
+    <div class="pure-u-3-4" id="main">
+      <h1>爬虫</h1>
+      <form class="pure-form pure-form-stacked" id="download" method="POST">
+        <fieldset>
+          <legend>下载单个网页</legend>
+
+          <label for="url">URL</label>
+          <input class="pure-u-1" id="url" type="url" placeholder="输入网址链接"
+            required>
+
+          <label for="savedir">保存目录(绝对路径)</label>
+          <input class="pure-u-1" id="savedir" type="text" placeholder="目录路径, 默认为./out">
+
+          <label for="isgbk" class="pure-checkbox">
+            <input id="isgbk" type="checkbox"> 网页是GBK编码的?
+          </label>
+
+          <button type="submit" class="pure-button pure-button-primary">
+            下载网页
+          </button>
+        </fieldset>
+      </form>
+
+      <h2>分步批量下载图片</h2>
+      <p>
+        这个还是要介绍一下的, 毕竟有三个步骤, 步骤间是紧密联系的.第一个步骤是找到首页, 首页的特点很明显, 一般就是列表,
+        不管是论坛的帖子列表还是其他的列表, 首页就是导航. 首页的最大作用就是链接到其他具体的包含你所需要的内容的网页.
+      </p>
+      <p>
+        同时,另一个任务是要分析首页的结构, 就是怎么从首页跳转到下一页, 毕竟一个首页是不够的, 列表数目有限, 必须要找到更多的列表.
+        这里的关键是分析网址结构, 比如第一页和第二页有 什么差别, 找到具体规则后就可以自动下载更多的页数了.
+        然而, 关于规则的寻找, 我并没有 找到好的方式, 人眼当然一眼能看出来, 但怎么让代码懂得, 怎么具体描述就不知道了.
+      </p>
+      <p>
+        第二步是下载具体页面, 具体页面是指包含所需要的图片的网页. 从具体页面中可以分析提取 图片的网址. 第二步也有一个分析规则的任务,
+        只有找到具体的规则, 才能分析提取出所需要的 图片的链接.
+      </p>
+      <p>
+        第三步是下载图片, 有了前面的基础, 这一步就非常简单了. 要注意的一点是这一步可能会因为解析产生很多链接而很吃内存, 甚至内存泄漏.
+        所以必须控制存放具体页面的目录的文件数量, 最好不要超过100个.
+      </p>
+      <form class="pure-form pure-form-stacked" id="download-homepage"
+        method="POST">
+        <fieldset>
+          <legend>1.下载首页</legend>
+
+          <label for="homelink1">URL</label>
+          <input class="pure-u-1" id="homelink1" type="url" placeholder="输入首页链接"
+            required>
+
+          <label for="savedir1">保存目录(绝对路径)</label>
+          <input class="pure-u-1" id="savedir1" type="text" placeholder="目录路径, 默认为./out/shouye">
+
+          <label for="homelink2">第二页URL</label>
+          <input class="pure-u-1" id="homelink2" type="url" placeholder="输入第二页链接"
+            required>
+
+          <label for="linknumber">首页数目</label>
+          <input id="linknumber" type="number" value="5" required>
+
+
+          <label for="isgbk1" class="pure-checkbox">
+            <input id="isgbk1" type="checkbox"> 网页是GBK编码的?
+          </label>
+
+          <button type="submit" class="pure-button pure-button-primary">
+            下载网页
+          </button>
+        </fieldset>
+      </form>
+      <form class="pure-form pure-form-stacked" id="download-specificpage"
+        method="POST">
+        <fieldset>
+          <legend>2.下载具体页面</legend>
+
+          <label for="getdir1">存放首页的目录</label>
+          <input class="pure-u-1" id="getdir1" type="text" placeholder="存放首页的目录, 默认为./out/shouye">
+
+          <label for="savedir2">保存目录(绝对路径)</label>
+          <input class="pure-u-1" id="savedir2" type="text" placeholder="目录路径, 默认为./out/juti">
+
+          <label for="reg1">正则表达式</label>
+          <input class="pure-u-1" id="reg1" type="text" placeholder="链接的正则表达式"
+            required>
+
+          <label for="part1">前置部分</label>
+          <input class="pure-u-1" id="part1" type="text" placeholder="如果正则表达式不是完整的, 添加前置部分">
+
+          <label for="isgbk2" class="pure-checkbox">
+            <input id="isgbk2" type="checkbox"> 网页是GBK编码的?
+          </label>
+
+          <button type="submit" class="pure-button pure-button-primary">
+            下载网页
+          </button>
+        </fieldset>
+      </form>
+      <form class="pure-form pure-form-stacked" id="download-img" method="POST">
+        <fieldset>
+          <legend>3.下载图片</legend>
+
+          <label for="getdir2">存放具体页面的目录</label>
+          <input class="pure-u-1" id="getdir2" type="text" placeholder="存放具体页面的目录, 默认为./out/juti">
+
+          <label for="savedir3">保存目录</label>
+          <input class="pure-u-1" id="savedir3" type="text" placeholder="目录路径, 默认为./out/img">
+
+          <label for="reg2">正则表达式</label>
+          <input class="pure-u-1" id="reg2" type="text" placeholder="链接的正则表达式"
+            required>
+
+          <label for="part2">前置部分</label>
+          <input class="pure-u-1" id="part2" type="text" placeholder="如果正则表达式不是完整的, 添加前置部分">
+
+          <button type="submit" class="pure-button pure-button-primary">
+            下载图片
+          </button>
+        </fieldset>
+      </form>
+
+
+
+    </div>
+
+
+
+  </div>
+
+
+</body>
+
+<script>
+  // You can also require other files to run in this process
+    require('./renderer.js')
+    require('./menu.js')
+</script>
+
+</html>
