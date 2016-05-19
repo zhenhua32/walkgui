@@ -5,14 +5,34 @@ const request = require('request');
 const iconv = require('iconv-lite');
 const fs = require('fs');
 const path = require('path');
-const walk = require('./core/walk.js');
-const helper = require('./core/helper.js');
+const walk = require('../../core/walk.js');
+const helper = require('../../core/helper.js');
+const dialog = require('electron').remote.dialog;
 
+// 清除任务列表
 document.getElementById('clear')
     .addEventListener('click', function (evnet) {
         document.getElementById('list').innerHTML = '';
     });
 
+// 打开文件夹选择对话框
+function dirButton(index, savdirid) {
+    document.getElementsByClassName('dirchose')[index]
+        .addEventListener('click', function (event) {
+            let dir = dialog.showOpenDialog({
+                defaultPath: __dirname,
+                properties: ['openDirectory', 'createDirectory']
+            });
+            if (dir) document.getElementById(savdirid).value = dir;
+        });
+}
+let buttonArray = document.getElementsByClassName('dirchose');
+let savedirArray = ['savedir', 'savedir1', 'savedir2', 'savedir3'];
+for(let i=0; i < buttonArray.length; i++) {
+    dirButton(i, savedirArray[i]);
+}
+
+// 注册下载单个网页事件
 document.getElementById('download')
     .addEventListener('submit', function (evnet) {
         evnet.preventDefault();
@@ -20,7 +40,7 @@ document.getElementById('download')
         let dir = event.target.savedir.value;
         let isgbk = event.target.isgbk.checked;
         // 相对地址的基准不好确定
-        helper.testdir(dir, path.join(__dirname, './out'))
+        helper.testdir(dir,  path.normalize(__dirname ,'../../out'))
             .then(function (result) {
                 dir = result;
                 let filepath = path.join(dir, Date.now() + '.html');
@@ -38,6 +58,7 @@ document.getElementById('download')
             });
     });
 
+// 注册首页下载事件
 document.getElementById('download-homepage')
     .addEventListener('submit', function (evnet) {
         event.preventDefault();
@@ -47,7 +68,7 @@ document.getElementById('download-homepage')
         let number = evnet.target.linknumber.value;
         let isgbk = event.target.isgbk1.checked;
 
-        helper.testdir(dir, path.join(__dirname, './out/shouye'))
+        helper.testdir(dir, path.normalize(__dirname, '../../out/shouye'))
             .then(function (result) {
                 dir = result;
 
@@ -79,6 +100,7 @@ document.getElementById('download-homepage')
             })
     });
 
+// 注册具体页面下载事件
 document.getElementById('download-specificpage')
     .addEventListener('submit', function (event) {
         event.preventDefault();
@@ -90,12 +112,12 @@ document.getElementById('download-specificpage')
 
         let links = null;
 
-        helper.testdir(getdir, path.join(__dirname, './out/shouye'))
+        helper.testdir(getdir, path.normalize(__dirname, '../../out/shouye'))
             .then(function (result) {
                 getdir = result;
                 links = walk.parse(getdir, reg, /(\d){13}.html/i, part);
                 console.log(links)
-                return helper.testdir(savedir, path.join(__dirname, './out/juti'));
+                return helper.testdir(savedir, path.normalize(__dirname, '../../out/juti'));
             })
             .then(function (result) {
                 savedir = result;
@@ -127,6 +149,7 @@ document.getElementById('download-specificpage')
 
     });
 
+// 注册图片下载事件
 document.getElementById('download-img')
     .addEventListener('submit', function (event) {
         event.preventDefault();
@@ -137,13 +160,13 @@ document.getElementById('download-img')
 
         let links = null;
 
-        helper.testdir(getdir, path.join(__dirname, './out/juti'))
+        helper.testdir(getdir, path.normalize(__dirname, '../../out/juti'))
             .then(function (result) {
                 getdir = result;
                 links = walk.parse(getdir, reg, /(\d){13}.html/i, part);
                 //
                 console.log(links.length);
-                return helper.testdir(savedir, path.join(__dirname, './out/img'));
+                return helper.testdir(savedir, path.normalize(__dirname, '../../out/img'));
             })
             .then(function (result) {
                 savedir = result;

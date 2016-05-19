@@ -35,6 +35,8 @@
           <label for="savedir">保存目录(绝对路径)</label>
           <input class="pure-u-1" id="savedir" type="text" placeholder="目录路径, 默认为./out">
 
+          <button type="button" class="pure-button dirchose">选择目录</button>
+
           <label for="isgbk" class="pure-checkbox">
             <input id="isgbk" type="checkbox"> 网页是GBK编码的?
           </label>
@@ -75,6 +77,8 @@
           <label for="savedir1">保存目录(绝对路径)</label>
           <input class="pure-u-1" id="savedir1" type="text" placeholder="目录路径, 默认为./out/shouye">
 
+          <button type="button" class="pure-button dirchose">选择目录</button>
+
           <label for="homelink2">第二页URL</label>
           <input class="pure-u-1" id="homelink2" type="url" placeholder="输入第二页链接"
             required>
@@ -103,6 +107,8 @@
           <label for="savedir2">保存目录(绝对路径)</label>
           <input class="pure-u-1" id="savedir2" type="text" placeholder="目录路径, 默认为./out/juti">
 
+          <button type="button" class="pure-button dirchose">选择目录</button>
+
           <label for="reg1">正则表达式</label>
           <input class="pure-u-1" id="reg1" type="text" placeholder="链接的正则表达式"
             required>
@@ -129,6 +135,8 @@
           <label for="savedir3">保存目录</label>
           <input class="pure-u-1" id="savedir3" type="text" placeholder="目录路径, 默认为./out/img">
 
+          <button type="button" class="pure-button dirchose">选择目录</button>
+
           <label for="reg2">正则表达式</label>
           <input class="pure-u-1" id="reg2" type="text" placeholder="链接的正则表达式"
             required>
@@ -142,10 +150,7 @@
         </fieldset>
       </form>
 
-
-
     </div>
-
 
 
   </div>
@@ -155,8 +160,9 @@
 
 <script>
   // You can also require other files to run in this process
-    require('./renderer.js')
-    require('./menu.js')
+    require('./web/js/renderer.js')
+    require('./web/js/menu.js')
+
 </script>
 
 </html>

@@ -13,7 +13,6 @@ let options = {
 }
 
 walk.gethtml = function (url, filepath, isgbk) {
-
     let stream = fs.createWriteStream(filepath);
     options.url = url;
     // 好像不用转换, 直接用就可以了
@@ -38,7 +37,6 @@ walk.gethtml = function (url, filepath, isgbk) {
                     });
                 })
                 .pipe(stream);
-            console.log(222)
         }
 
         stream.on('finish', () => {
