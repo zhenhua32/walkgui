@@ -21,8 +21,8 @@ helper.testdir = function (dir, defaultdir) {
             if (!stats.isDirectory()) dir = defaultdir;
             // 如果不是绝对路径
             if (!path.isAbsolute(dir)) {
-                dir = path.join(__dirname,defaultdir);
-            } 
+                dir = path.join(__dirname,dir);
+            }
             resolve(dir);
         });
     }

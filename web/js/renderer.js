@@ -1,6 +1,7 @@
 // This file is required by the index.html file and will
 // be executed in the renderer process for that window.
 // All of the Node.js APIs are available in this process.
+// 还是要处理路径依赖, 不然, 文件移个位置就要大改代码
 const request = require('request');
 const iconv = require('iconv-lite');
 const fs = require('fs');
@@ -20,7 +21,7 @@ function dirButton(index, savdirid) {
     document.getElementsByClassName('dirchose')[index]
         .addEventListener('click', function (event) {
             let dir = dialog.showOpenDialog({
-                defaultPath: __dirname,
+                defaultPath: path.join(__dirname, '../'),
                 properties: ['openDirectory', 'createDirectory']
             });
             if (dir) document.getElementById(savdirid).value = dir;
@@ -40,7 +41,7 @@ document.getElementById('download')
         let dir = event.target.savedir.value;
         let isgbk = event.target.isgbk.checked;
         // 相对地址的基准不好确定
-        helper.testdir(dir,  path.normalize(__dirname ,'../../out'))
+        helper.testdir(dir,  path.join(__dirname ,'../../out'))
             .then(function (result) {
                 dir = result;
                 let filepath = path.join(dir, Date.now() + '.html');
@@ -68,7 +69,7 @@ document.getElementById('download-homepage')
         let number = evnet.target.linknumber.value;
         let isgbk = event.target.isgbk1.checked;
 
-        helper.testdir(dir, path.normalize(__dirname, '../../out/shouye'))
+        helper.testdir(dir, path.join(__dirname, '../../out/shouye'))
             .then(function (result) {
                 dir = result;
 
@@ -112,12 +113,12 @@ document.getElementById('download-specificpage')
 
         let links = null;
 
-        helper.testdir(getdir, path.normalize(__dirname, '../../out/shouye'))
+        helper.testdir(getdir, path.join(__dirname, '../../out/shouye'))
             .then(function (result) {
                 getdir = result;
                 links = walk.parse(getdir, reg, /(\d){13}.html/i, part);
                 console.log(links)
-                return helper.testdir(savedir, path.normalize(__dirname, '../../out/juti'));
+                return helper.testdir(savedir, path.join(__dirname, '../../out/juti'));
             })
             .then(function (result) {
                 savedir = result;
@@ -160,13 +161,13 @@ document.getElementById('download-img')
 
         let links = null;
 
-        helper.testdir(getdir, path.normalize(__dirname, '../../out/juti'))
+        helper.testdir(getdir, path.join(__dirname, '../../out/juti'))
             .then(function (result) {
                 getdir = result;
                 links = walk.parse(getdir, reg, /(\d){13}.html/i, part);
                 //
                 console.log(links.length);
-                return helper.testdir(savedir, path.normalize(__dirname, '../../out/img'));
+                return helper.testdir(savedir, path.join(__dirname, '../../out/img'));
             })
             .then(function (result) {
                 savedir = result;

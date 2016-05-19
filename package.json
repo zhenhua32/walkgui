@@ -4,7 +4,8 @@
   "description": "A minimal Electron application",
   "main": "main.js",
   "scripts": {
-    "start": "electron main.js"
+    "start": "electron main.js",
+    "build": "node ./build.js"
   },
   "repository": {
     "type": "git",
@@ -23,7 +24,8 @@
   },
   "homepage": "",
   "devDependencies": {
-    "electron-prebuilt": "^1.0.2",
+    "electron-packager": "^7.0.2",
+    "electron-prebuilt": "^1.1.0",
     "electron-rebuild": "^1.1.4"
   },
   "dependencies": {
