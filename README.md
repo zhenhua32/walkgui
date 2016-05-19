@@ -35,8 +35,8 @@
 用个实际例子说明更容易明白些.
 比如要下载太平洋摄影论坛上的图片, 为了简单起见, 不设置保存目录,
 * 第一步, 输入两个首页地址
- * http://itbbs.pconline.com.cn/dc/f2312647_1.html
- * http://itbbs.pconline.com.cn/dc/f2312647_2.html
+ * `http://itbbs.pconline.com.cn/dc/f2312647_1.html`
+ * `http://itbbs.pconline.com.cn/dc/f2312647_2.html`
 * 第二步, 输入正则表达式提取具体页面
  * `http:\/\/itbbs.pconline.com.cn\/dc/(\d)+\.html`
 * 第三步, 输入正则表达式提取图片
