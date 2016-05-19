@@ -85,32 +85,35 @@ walk.getlinks1 = function (link1, link2, number) {
 }
 // 方法二, 正则匹配数字
 walk.getlinks = function (link1, link2, number) {
+    // 抽取数字成数组
     let array1 = link1.match(/(\d)+/ig);
     let array2 = link2.match(/(\d)+/ig);
-
+    // 数字不匹配的位置, 基于数字的改变是下一页的假设
     let stop = null;
-
     for (let i = 0; i < array1.length; i++) {
         if (array1[i] !== array2[i]) {
             stop = i;
             break;
         }
     }
+    // 数字的长度
     let length1 = array1[stop].length;
     let length2 = array2[stop].length;
+    // 找到数字在的位置
     // 其实还是有很大风险的, 不过从后面找风险更小一些
     let index1 = link1.lastIndexOf(array1[stop]);
     let index2 = link2.lastIndexOf(array2[stop]);
-
+    // 抽取前缀部分和后缀部分
     // substring 不包括 index1的位置
     let part1 = link1.substring(0, index1);
     let part2 = link1.substring(index1 + length1);
-
-    let step = array2[stop] - array1[stop];
-    step = step < 0 ? -step : step;
-    let min = array1[stop] < array2[stop] ? array1[stop] : array2[stop];
+    // 进行计算, 转为数字更方便
+    let num1 = Number(array1[stop]);
+    let num2 = Number(array2[stop]);
+    let step = Math.abs(num1 - num2);
+    let min = num1 < num2 ? num1 : num2;
     min = Number(min);
-
+    // 生成链接
     let links = [];
     for (let i = 0; i < number; i++) {
         links.push(part1 + (min + step * i) + part2)
