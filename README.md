@@ -18,7 +18,7 @@
 需要nodejs>=4.x和npm
 
 ## 安装
-使用 `npm start` 安装必要依赖
+使用 `npm install` 安装必要依赖
 
 ## 启动
 使用 `npm start` 运行
